@@ -21,19 +21,24 @@ const Formulario = ({ setPedidos }) => {
     { gusto: gustosEmpanadas[0], cantidad: 1 },
   ]);
 
-  const handleEmpanadaChange = (index, field, value) => {
-    const nuevosEmpanadas = [...empanadas];
-    if (field === "cantidad") {
-      const cantidadNum = Number(value);
-      nuevosEmpanadas[index][field] = cantidadNum > 0 ? cantidadNum : 1;
+  const cambiarEmpanada = (indice, campo, valor) => {
+    const nuevosEmpanadas = empanadas.slice();
+    if (campo === "cantidad") {
+      const cantidadNum = parseInt(valor);
+      if (cantidadNum > 0) {
+        nuevosEmpanadas[indice][campo] = cantidadNum;
+      } else {
+        nuevosEmpanadas[indice][campo] = 1;
+      }
     } else {
-      nuevosEmpanadas[index][field] = value;
+      nuevosEmpanadas[indice][campo] = valor;
     }
     setEmpanadas(nuevosEmpanadas);
   };
 
   const agregarEmpanada = () => {
-    setEmpanadas([...empanadas, { gusto: gustosEmpanadas[0], cantidad: 1 }]);
+    const nuevaLista = empanadas.concat({ gusto: gustosEmpanadas[0], cantidad: 1 });
+    setEmpanadas(nuevaLista);
   };
 
   const enviarDatos = (e) => {
@@ -42,11 +47,15 @@ const Formulario = ({ setPedidos }) => {
     const nombre = formulario.nombre.value;
     const sector = formulario.sector.value;
     const pedido = {
-      nombre,
-      sector,
-      empanadas: empanadas.filter((item) => item.cantidad > 0),
+      nombre: nombre,
+      sector: sector,
+      empanadas: empanadas.filter(function(item) {
+        return item.cantidad > 0;
+      }),
     };
-    setPedidos((pedidos) => [...pedidos, pedido]);
+    setPedidos(function(pedidos) {
+      return pedidos.concat(pedido);
+    });
     formulario.reset();
     setEmpanadas([{ gusto: gustosEmpanadas[0], cantidad: 1 }]);
   };
@@ -68,47 +77,53 @@ const Formulario = ({ setPedidos }) => {
       <label>
         Sector:
         <select name="sector" defaultValue={sectoresEmpresa[0]}>
-          {sectoresEmpresa.map((sector) => (
-            <option key={sector} value={sector}>
-              {sector}
-            </option>
-          ))}
+          {sectoresEmpresa.map(function(sector) {
+            return (
+              <option key={sector} value={sector}>
+                {sector}
+              </option>
+            );
+          })}
         </select>
       </label>
 
       <div>
         <h3>Pedidos de empanadas</h3>
-        {empanadas.map((item, index) => (
-          <div key={index} className="empanada-pedido">
-            <label>
-              Gusto:
-              <select
-                value={item.gusto}
-                onChange={(e) =>
-                  handleEmpanadaChange(index, "gusto", e.target.value)
-                }
-              >
-                {gustosEmpanadas.map((gusto) => (
-                  <option key={gusto} value={gusto}>
-                    {gusto}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              Cantidad:
-              <input
-                type="number"
-                min="1"
-                value={item.cantidad}
-                onChange={(e) =>
-                  handleEmpanadaChange(index, "cantidad", e.target.value)
-                }
-                required
-              />
-            </label>
-          </div>
-        ))}
+        {empanadas.map(function(item, index) {
+          return (
+            <div key={index} className="empanada-pedido">
+              <label>
+                Gusto:
+                <select
+                  value={item.gusto}
+                  onChange={function(e) {
+                    cambiarEmpanada(index, "gusto", e.target.value);
+                  }}
+                >
+                  {gustosEmpanadas.map(function(gusto) {
+                    return (
+                      <option key={gusto} value={gusto}>
+                        {gusto}
+                      </option>
+                    );
+                  })}
+                </select>
+              </label>
+              <label>
+                Cantidad:
+                <input
+                  type="number"
+                  min="1"
+                  value={item.cantidad}
+                  onChange={function(e) {
+                    cambiarEmpanada(index, "cantidad", e.target.value);
+                  }}
+                  required
+                />
+              </label>
+            </div>
+          );
+        })}
         <button type="button" onClick={agregarEmpanada}>
           Agregar otra empanada
         </button>
