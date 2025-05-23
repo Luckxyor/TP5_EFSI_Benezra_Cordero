@@ -1,0 +1,28 @@
+h2 {
+    color: #8B4513;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    max-width: 300px;
+    margin: 0 auto 20px auto;
+    background-color: #fefefe;
+    border: 2px solid #8B4513;
+    border-radius: 15px;
+    box-shadow: 0 3px 6px rgba(139, 69, 19, 0.2);
+    text-align: center;
+}
+
+li {
+    padding: 10px 15px;
+    border-bottom: 1px solid #d2b48c;
+    font-weight: 600;
+    color: #5a3e1b;
+}
+
+li:last-child {
+    border-bottom: none;
+}

@@ -1,0 +1,35 @@
+h2 {
+    color: #8B4513;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+ul {
+    padding: 0;
+    max-width: 400px;
+    margin: 0 auto 20px auto;
+    background-color: #fefefe;
+    border: 2px solid #8B4513;
+    border-radius: 15px;
+    box-shadow: 0 3px 6px rgba(139, 69, 19, 0.2);
+}
+
+li {
+    padding: 10px 15px;
+    border-bottom: 1px solid #d2b48c;
+    color: #5a3e1b;
+}
+
+li strong {
+    font-weight: 700;
+}
+
+li ul {
+    margin-top: 8px;
+}
+
+li ul li {
+    border: none;
+    padding: 5px 0;
+    font-weight: 600;
+}
